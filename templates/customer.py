@@ -73,7 +73,7 @@ class CustomerPanel ( wx.Panel ):
 		self.m_customer_list.DisableDragGridSize()
 		# Grid
 		self.m_customer_list.CreateGrid( 0, 5 )
-		self.m_customer_list.EnableEditing( True )
+		self.m_customer_list.EnableEditing( False )
 		self.m_customer_list.EnableGridLines( True )
 		self.m_customer_list.EnableDragGridSize( False )
 		self.m_customer_list.SetMargins( 0, 0 )
@@ -186,3 +186,14 @@ class CustomerPanel ( wx.Panel ):
 	
 	def m_delCustomer(self, event):
 		selected = self.m_customer_name_list.GetString(self.m_customer_name_list.GetSelection())
+		regex = r'([0-9]+)(.*)'
+		matches = re.match(regex, selected, re.M|re.I)
+		if matches:
+			customerID = matches.groups()[0]
+			answer = wx.MessageBox("What happens when you delete customer? All orders of that customer will be deleted. Are you sure?", "Message" ,wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
+			if answer == wx.YES:
+				customerInv = CustomerInventory()
+				customerInv.delete(customerID)
+				wx.MessageBox("Delete success!", "Message" ,wx.OK | wx.ICON_INFORMATION)
+		else:
+			wx.MessageBox("Error when removing this value", "Message" ,wx.OK | wx.ICON_ERROR)

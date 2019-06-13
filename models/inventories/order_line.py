@@ -25,4 +25,14 @@ class OrderLineInventory(Database):
         return datas
 
     def create(self, data):
-        Database.create(self, data)
+        return Database.create(self, data)
+    
+    def delete(self, orderLineID):
+        query = "DELETE FROM order_lines WHERE id = {}".format(orderLineID)
+        Database.execute(self, query)
+        return True
+    
+    def deleteWhere(self, condition):
+        results = Database.getWhere(self, condition, "id")
+        for result in results:
+            self.delete(result[0])

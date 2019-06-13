@@ -49,6 +49,25 @@ class Mainer():
             row += 1
             self.panel.m_customer_name_list.Append(str(customer.id) + " " + str(customer.name))
         
+    def openSalerPanel(self):
+        width = 850
+        height = 785
+        self.frame = Navigation(parent = None, width=width, height=height)
+        self.panel = SalerPanel(self.frame)
+        SalerInv = SalerInventory()
+        salers = SalerInv.getAll()
+        row = 0
+        for saler in salers:
+            self.panel.m_saler_list.AppendRows(numRows=1)
+            self.panel.m_saler_list.SetCellValue(row, 0, str(saler.id))
+            self.panel.m_saler_list.SetCellValue(row, 1, str(saler.name))
+            self.panel.m_saler_list.SetCellValue(row, 2, str(saler.address))
+            self.panel.m_saler_list.SetCellValue(row, 3, str(saler.phone))
+            self.panel.m_saler_list.SetCellValue(row, 4, str(saler.identity_num))
+            self.panel.m_saler_list.SetCellValue(row, 5, "True" if saler.status == 1 else "False")
+            row += 1
+            self.panel.m_saler_name_list.Append(str(saler.id) + " " + str(saler.name))
+        
     def show(self):
         self.frame.Show()
         self.app.MainLoop()
@@ -56,7 +75,7 @@ class Mainer():
 
 if __name__ == "__main__":
     mainer = Mainer()
-    mainer.openCustomerPanel()
+    mainer.openSalerPanel()
     mainer.show()
     # Query Database
     

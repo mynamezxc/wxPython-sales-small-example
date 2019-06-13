@@ -1,4 +1,5 @@
 from models.inventories.database_connector import *
+from models.inventories.order_line import *
 from models.order import *
 
 class OrderInventory(Database):
@@ -25,4 +26,16 @@ class OrderInventory(Database):
         return datas
     
     def create(self, data):
-        Database.create(self, data)
+        return Database.create(self, data)
+    
+    def delete(self, orderID):
+        OrderLineINV = OrderLineInventory()
+        OrderLineINV.deleteWhere(["order_id", "=", orderID])
+        query = "DELETE FROM orders WHERE id = {}".format(orderID)
+        Database.execute(self, query)
+        return True
+    
+    def deleteWhere(self, condition):
+        results = Database.getWhere(self, condition, "id")
+        for result in results:
+            self.delete(result[0])

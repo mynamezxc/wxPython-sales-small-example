@@ -9,20 +9,17 @@ class Database():
         query = "SELECT * FROM {}".format(self.table)
         cursor = self.con.execute(query)
         results = cursor.fetchall()
-        self.disconnect()
         return results
     
-    def getWhere(self, condition):
-        query = "SELECT * FROM {} WHERE {} {} {}".format(self.table, condition[0], condition[1], condition[2])
+    def getWhere(self, condition, cols="*"):
+        query = "SELECT {} FROM {} WHERE {} {} {}".format(cols, self.table, str(condition[0]), str(condition[1]), str(condition[2]))
         cursor = self.con.execute(query)
         results = cursor.fetchall()
-        self.disconnect()
         return results
 
     def getOne(self, query):
         cursor = self.con.execute(query)
         result = cursor.fetchone()
-        self.disconnect()
         return result
     
     def create(self, data):
@@ -40,13 +37,17 @@ class Database():
         query = "INSERT INTO {} ({}) VALUES ({})".format(self.table, cols, vals)
         cursor = self.con.execute(query)
         self.con.commit()
-        self.disconnect()
         return cursor.lastrowid
+    
+    def deleteWhere(self, condition):
+        query = "SELECT * FROM {} WHERE {} {} {}".format(self.table, str(condition[0]), str(condition[1]), str(condition[2]))
+        self.con.execute(query)
+        self.con.commit()
+        return True
 
     def execute(self, query):
         cursor = self.con.execute(query)
         self.con.commit()
-        self.disconnect()
         return cursor.rowcount
     
     def disconnect(self):

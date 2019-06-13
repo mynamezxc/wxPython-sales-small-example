@@ -19,7 +19,6 @@ class Navigation ( wx.Frame ):
 	def __init__( self, parent, width, height ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Sale orders", pos = wx.DefaultPosition, size = wx.Size( width,height ), style = wx.DEFAULT_FRAME_STYLE|wx.RESIZE_BORDER )
 		
-		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.Colour( 255, 255, 255 ) )
 		
 		self.m_menubar1 = wx.MenuBar( 0 )
