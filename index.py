@@ -64,10 +64,29 @@ class Mainer():
             self.panel.m_saler_list.SetCellValue(row, 2, str(saler.address))
             self.panel.m_saler_list.SetCellValue(row, 3, str(saler.phone))
             self.panel.m_saler_list.SetCellValue(row, 4, str(saler.identity_num))
-            self.panel.m_saler_list.SetCellValue(row, 5, "True" if saler.status == 1 else "False")
+            self.panel.m_saler_list.SetCellValue(row, 5, "True" if saler  == 1 else "False")
             row += 1
             self.panel.m_saler_name_list.Append(str(saler.id) + " " + str(saler.name))
-        
+    
+    def openProductPanel(self):
+        width = 391
+        height = 384
+        self.frame = Navigation(parent = None, width=width, height=height)
+        self.panel = ProductPanel(self.frame)
+        ProductInv = ProductInventory()
+        products = ProductInv.getAll()
+        # row = 0
+        # for saler in salers:
+        #     self.panel.m_saler_list.AppendRows(numRows=1)
+        #     self.panel.m_saler_list.SetCellValue(row, 0, str(saler.id))
+        #     self.panel.m_saler_list.SetCellValue(row, 1, str(saler.name))
+        #     self.panel.m_saler_list.SetCellValue(row, 2, str(saler.address))
+        #     self.panel.m_saler_list.SetCellValue(row, 3, str(saler.phone))
+        #     self.panel.m_saler_list.SetCellValue(row, 4, str(saler.identity_num))
+        #     self.panel.m_saler_list.SetCellValue(row, 5, "True" if saler.  == 1 else "False")
+        #     row += 1
+        #     self.panel.m_saler_name_list.Append(str(saler.id) + " " + str(saler.name))
+
     def show(self):
         self.frame.Show()
         self.app.MainLoop()
@@ -75,7 +94,7 @@ class Mainer():
 
 if __name__ == "__main__":
     mainer = Mainer()
-    mainer.openSalerPanel()
+    mainer.openCustomerPanel()
     mainer.show()
     # Query Database
     

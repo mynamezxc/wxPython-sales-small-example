@@ -190,7 +190,7 @@ class CustomerPanel ( wx.Panel ):
 		matches = re.match(regex, selected, re.M|re.I)
 		if matches:
 			customerID = matches.groups()[0]
-			answer = wx.MessageBox("What happens when you delete customer? All orders of that customer will be deleted. Are you sure?", "Message" ,wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
+			answer = wx.MessageBox("What happens when you delete customer? All orders of that customer will be deleted. Are you want to delete?", "Message" ,wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
 			if answer == wx.YES:
 				customerInv = CustomerInventory()
 				customerInv.delete(customerID)
