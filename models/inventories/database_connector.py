@@ -17,7 +17,8 @@ class Database():
         results = cursor.fetchall()
         return results
 
-    def getOne(self, query):
+    def getOneWhere(self, condition, cols="*"):
+        query = "SELECT {} FROM {} WHERE {} {} {}".format(cols, self.table, str(condition[0]), str(condition[1]), str(condition[2]))
         cursor = self.con.execute(query)
         result = cursor.fetchone()
         return result

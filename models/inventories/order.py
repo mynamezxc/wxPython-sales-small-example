@@ -16,7 +16,7 @@ class OrderInventory(Database):
             temp = Order(result)
             datas.append(temp)
         return datas
-    
+
     def getWhere(self, condition):
         results = Database.getWhere(self, condition)
         datas = []
@@ -24,18 +24,24 @@ class OrderInventory(Database):
             temp = Order(result)
             datas.append(temp)
         return datas
-    
+
     def create(self, data):
         return Database.create(self, data)
-    
+
     def delete(self, orderID):
         OrderLineINV = OrderLineInventory()
         OrderLineINV.deleteWhere(["order_id", "=", orderID])
         query = "DELETE FROM orders WHERE id = {}".format(orderID)
         Database.execute(self, query)
         return True
-    
+
     def deleteWhere(self, condition):
         results = Database.getWhere(self, condition, "id")
         for result in results:
             self.delete(result[0])
+
+    def getOneWhere(self, condition, cols="*"):
+        result = Database.getOneWhere(self, condition, cols)
+        if result:
+            temp = Order(result)
+        return temp

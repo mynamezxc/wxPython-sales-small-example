@@ -11,12 +11,12 @@ from templates.navigations.default import *
 
 
 # Inventories
-from models.inventories.order import *
+from models.inventories.unit import *
 from models.inventories.customer import *
 from models.inventories.saler import *
 from models.inventories.product import *
 from models.inventories.order_line import *
-from models.inventories.unit import *
+from models.inventories.order import *
 
 
 import wx
@@ -69,23 +69,31 @@ class Mainer():
             self.panel.m_saler_name_list.Append(str(saler.id) + " " + str(saler.name))
     
     def openProductPanel(self):
-        width = 391
-        height = 384
+        width = 510
+        height = 750
         self.frame = Navigation(parent = None, width=width, height=height)
         self.panel = ProductPanel(self.frame)
         ProductInv = ProductInventory()
         products = ProductInv.getAll()
-        # row = 0
-        # for saler in salers:
-        #     self.panel.m_saler_list.AppendRows(numRows=1)
-        #     self.panel.m_saler_list.SetCellValue(row, 0, str(saler.id))
-        #     self.panel.m_saler_list.SetCellValue(row, 1, str(saler.name))
-        #     self.panel.m_saler_list.SetCellValue(row, 2, str(saler.address))
-        #     self.panel.m_saler_list.SetCellValue(row, 3, str(saler.phone))
-        #     self.panel.m_saler_list.SetCellValue(row, 4, str(saler.identity_num))
-        #     self.panel.m_saler_list.SetCellValue(row, 5, "True" if saler.  == 1 else "False")
-        #     row += 1
-        #     self.panel.m_saler_name_list.Append(str(saler.id) + " " + str(saler.name))
+
+        UnitInv = UnitInventory()
+        unitList = UnitInv.getAll()
+        
+        for unit in unitList:
+            self.panel.m_unit_list.Append(str(unit.id) + " - " + unit.name)
+
+        row = 0
+        for product in products:
+            self.panel.m_product_list.AppendRows(numRows=1)
+            self.panel.m_product_list.SetCellValue(row, 0, str(product.id))
+            self.panel.m_product_list.SetCellValue(row, 1, str(product.name))
+            self.panel.m_product_list.SetCellValue(row, 2, str(product.price))
+            if product.unit_id:
+                self.panel.m_product_list.SetCellValue(row, 3, str(product.unit_id.name))
+            else:
+                self.panel.m_product_list.SetCellValue(row, 3, "None")
+            row += 1
+            self.panel.m_product_name_list.Append(str(product.id) + "-" + str(product.name))
 
     def show(self):
         self.frame.Show()
@@ -94,7 +102,7 @@ class Mainer():
 
 if __name__ == "__main__":
     mainer = Mainer()
-    mainer.openCustomerPanel()
+    mainer.openProductPanel()
     mainer.show()
     # Query Database
     

@@ -39,3 +39,9 @@ class SalerInventory(Database):
         results = Database.getWhere(self, condition, "id")
         for result in results:
             self.delete(result[0])
+    
+    def getOneWhere(self, condition, cols="*"):
+        result = Database.getOneWhere(self, condition, cols)
+        if result:
+            temp = Saler(result)
+            return temp

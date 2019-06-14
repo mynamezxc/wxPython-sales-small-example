@@ -10,154 +10,176 @@
 import wx
 import wx.xrc
 import wx.grid
+import re
+from models.inventories.product import *
 
 ###########################################################################
-## Class Product
+## Class ProductPanel
 ###########################################################################
 
 class ProductPanel ( wx.Panel ):
 	
 	def __init__( self, parent ):
-		wx.Panel.__init__ ( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 391,384 ), style = wx.TAB_TRAVERSAL )
-		
-		bSizer1 = wx.BoxSizer( wx.VERTICAL )
-		
-		gbSizer1 = wx.GridBagSizer( 0, 0 )
-		gbSizer1.SetFlexibleDirection( wx.BOTH )
-		gbSizer1.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		wx.Panel.__init__ ( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 504,745 ), style = wx.TAB_TRAVERSAL )
 		
 		bSizer3 = wx.BoxSizer( wx.VERTICAL )
 		
-		gbSizer1111 = wx.GridBagSizer( 0, 0 )
-		gbSizer1111.SetFlexibleDirection( wx.BOTH )
-		gbSizer1111.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		bSizer31 = wx.BoxSizer( wx.VERTICAL )
 		
-		self.m_staticText2111 = wx.StaticText( self, wx.ID_ANY, u"Name", wx.DefaultPosition, wx.Size( 55,-1 ), 0 )
-		self.m_staticText2111.Wrap( -1 )
-		gbSizer1111.Add( self.m_staticText2111, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALIGN_CENTER|wx.ALL, 5 )
+		fgSizer1 = wx.FlexGridSizer( 0, 2, 0, 0 )
+		fgSizer1.SetFlexibleDirection( wx.BOTH )
+		fgSizer1.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
-		self.m_name = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 305,-1 ), 0 )
-		gbSizer1111.Add( self.m_name, wx.GBPosition( 0, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		self.m_staticText5 = wx.StaticText( self, wx.ID_ANY, u"Name", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText5.Wrap( -1 )
+		fgSizer1.Add( self.m_staticText5, 1, wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALL|wx.EXPAND, 5 )
 		
+		self.m_name = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 395,-1 ), 0 )
+		fgSizer1.Add( self.m_name, 0, wx.ALL, 5 )
 		
-		bSizer3.Add( gbSizer1111, 1, wx.EXPAND, 5 )
+		self.m_staticText6 = wx.StaticText( self, wx.ID_ANY, u"Price", wx.DefaultPosition, wx.Size( 80,-1 ), 0 )
+		self.m_staticText6.Wrap( -1 )
+		fgSizer1.Add( self.m_staticText6, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 		
-		gbSizer7 = wx.GridBagSizer( 0, 0 )
-		gbSizer7.SetFlexibleDirection( wx.BOTH )
-		gbSizer7.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		self.m_price = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 395,-1 ), 0 )
+		fgSizer1.Add( self.m_price, 0, wx.ALL|wx.EXPAND, 5 )
 		
-		self.m_staticText7 = wx.StaticText( self, wx.ID_ANY, u"Price", wx.DefaultPosition, wx.Size( 55,-1 ), 0 )
-		self.m_staticText7.Wrap( -1 )
-		gbSizer7.Add( self.m_staticText7, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALIGN_CENTER|wx.ALL, 5 )
+		self.m_staticText26 = wx.StaticText( self, wx.ID_ANY, u"Unit", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText26.Wrap( -1 )
+		fgSizer1.Add( self.m_staticText26, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 		
-		self.m_price = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer7.Add( self.m_price, wx.GBPosition( 0, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		m_unit_listChoices = []
+		self.m_unit_list = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 395,-1 ), m_unit_listChoices, 0 )
+		self.m_unit_list.SetSelection( 0 )
+		fgSizer1.Add( self.m_unit_list, 0, wx.ALL, 5 )
 		
-		self.m_staticText20 = wx.StaticText( self, wx.ID_ANY, u"VND", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_staticText20.Wrap( -1 )
-		gbSizer7.Add( self.m_staticText20, wx.GBPosition( 0, 2 ), wx.GBSpan( 1, 1 ), wx.ALIGN_CENTER|wx.ALL, 5 )
+		self.m_staticText28 = wx.StaticText( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText28.Wrap( -1 )
+		fgSizer1.Add( self.m_staticText28, 0, wx.ALL, 5 )
 		
-		
-		bSizer3.Add( gbSizer7, 1, wx.EXPAND, 5 )
-		
-		gbSizer20 = wx.GridBagSizer( 0, 0 )
-		gbSizer20.SetFlexibleDirection( wx.BOTH )
-		gbSizer20.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
-		
-		self.m_staticText21 = wx.StaticText( self, wx.ID_ANY, u"Unit", wx.DefaultPosition, wx.Size( 55,-1 ), 0 )
-		self.m_staticText21.Wrap( -1 )
-		gbSizer20.Add( self.m_staticText21, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALIGN_CENTER|wx.ALL, 5 )
-		
-		m_choice6Choices = []
-		self.m_choice6 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 305,-1 ), m_choice6Choices, 0 )
-		self.m_choice6.SetSelection( 0 )
-		gbSizer20.Add( self.m_choice6, wx.GBPosition( 0, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		self.m_create_product = wx.Button( self, wx.ID_ANY, u"Create", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_create_product.SetDefault() 
+		fgSizer1.Add( self.m_create_product, 0, wx.ALL, 5 )
 		
 		
-		bSizer3.Add( gbSizer20, 1, wx.EXPAND, 5 )
+		bSizer31.Add( fgSizer1, 0, wx.EXPAND, 5 )
 		
-		fgSizer7 = wx.FlexGridSizer( 0, 2, 0, 0 )
-		fgSizer7.SetFlexibleDirection( wx.BOTH )
-		fgSizer7.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
-		
-		self.m_staticText23 = wx.StaticText( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 55,-1 ), 0 )
-		self.m_staticText23.Wrap( -1 )
-		fgSizer7.Add( self.m_staticText23, 0, wx.ALL, 5 )
-		
-		self.m_button8 = wx.Button( self, wx.ID_ANY, u"Create", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_button8.SetDefault() 
-		fgSizer7.Add( self.m_button8, 0, wx.ALL, 5 )
-		
-		
-		bSizer3.Add( fgSizer7, 1, wx.EXPAND, 5 )
-		
-		gbSizer111 = wx.GridBagSizer( 0, 0 )
-		gbSizer111.SetFlexibleDirection( wx.BOTH )
-		gbSizer111.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
-		
-		self.m_staticText211 = wx.StaticText( self, wx.ID_ANY, u"Product", wx.DefaultPosition, wx.Size( 55,-1 ), 0 )
-		self.m_staticText211.Wrap( -1 )
-		gbSizer111.Add( self.m_staticText211, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALIGN_CENTER|wx.ALL, 5 )
-		
-		m_choice1Choices = []
-		self.m_choice1 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 210,-1 ), m_choice1Choices, 0 )
-		self.m_choice1.SetSelection( 0 )
-		gbSizer111.Add( self.m_choice1, wx.GBPosition( 0, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
-		
-		self.m_delete = wx.Button( self, wx.ID_ANY, u"Delete", wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer111.Add( self.m_delete, wx.GBPosition( 0, 2 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
-		
-		
-		bSizer3.Add( gbSizer111, 1, wx.EXPAND, 5 )
-		
-		
-		gbSizer1.Add( bSizer3, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.EXPAND, 5 )
-		
-		
-		bSizer1.Add( gbSizer1, 1, wx.EXPAND, 5 )
-		
-		fgSizer3 = wx.FlexGridSizer( 0, 2, 0, 0 )
-		fgSizer3.SetFlexibleDirection( wx.BOTH )
-		fgSizer3.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
-		
-		self.m_grid1 = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_product_list = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( -1,500 ), 0 )
 		
 		# Grid
-		self.m_grid1.CreateGrid( 10, 2 )
-		self.m_grid1.EnableEditing( True )
-		self.m_grid1.EnableGridLines( True )
-		self.m_grid1.EnableDragGridSize( False )
-		self.m_grid1.SetMargins( 0, 0 )
+		self.m_product_list.CreateGrid( 0, 4 )
+		self.m_product_list.EnableEditing( True )
+		self.m_product_list.EnableGridLines( True )
+		self.m_product_list.EnableDragGridSize( False )
+		self.m_product_list.SetMargins( 0, 0 )
 		
 		# Columns
-		self.m_grid1.SetColSize( 0, 80 )
-		self.m_grid1.SetColSize( 1, 292 )
-		self.m_grid1.EnableDragColMove( False )
-		self.m_grid1.EnableDragColSize( True )
-		self.m_grid1.SetColLabelSize( 30 )
-		self.m_grid1.SetColLabelValue( 0, u"ID" )
-		self.m_grid1.SetColLabelValue( 1, u"Unit name" )
-		self.m_grid1.SetColLabelAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
+		self.m_product_list.SetColSize( 0, 44 )
+		self.m_product_list.SetColSize( 1, 194 )
+		self.m_product_list.SetColSize( 2, 92 )
+		self.m_product_list.SetColSize( 3, 152 )
+		self.m_product_list.EnableDragColMove( False )
+		self.m_product_list.EnableDragColSize( True )
+		self.m_product_list.SetColLabelSize( 30 )
+		self.m_product_list.SetColLabelValue( 0, u"ID" )
+		self.m_product_list.SetColLabelValue( 1, u"Name" )
+		self.m_product_list.SetColLabelValue( 2, u"Price" )
+		self.m_product_list.SetColLabelValue( 3, u"Unit" )
+		self.m_product_list.SetColLabelAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
 		
 		# Rows
-		self.m_grid1.EnableDragRowSize( True )
-		self.m_grid1.SetRowLabelSize( 1 )
-		self.m_grid1.SetRowLabelAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
+		self.m_product_list.EnableDragRowSize( False )
+		self.m_product_list.SetRowLabelSize( 1 )
+		self.m_product_list.SetRowLabelAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
 		
 		# Label Appearance
 		
 		# Cell Defaults
-		self.m_grid1.SetDefaultCellAlignment( wx.ALIGN_LEFT, wx.ALIGN_TOP )
-		fgSizer3.Add( self.m_grid1, 0, wx.ALL, 5 )
+		self.m_product_list.SetDefaultCellBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
+		self.m_product_list.SetDefaultCellAlignment( wx.ALIGN_LEFT, wx.ALIGN_TOP )
+		bSizer31.Add( self.m_product_list, 0, wx.ALL|wx.EXPAND, 5 )
+		
+		self.m_staticline3 = wx.StaticLine( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL )
+		bSizer31.Add( self.m_staticline3, 0, wx.EXPAND |wx.ALL, 5 )
+		
+		gbSizer9 = wx.GridBagSizer( 0, 0 )
+		gbSizer9.SetFlexibleDirection( wx.BOTH )
+		gbSizer9.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		
+		self.m_staticText32 = wx.StaticText( self, wx.ID_ANY, u"Customer name", wx.DefaultPosition, wx.Size( 80,-1 ), 0 )
+		self.m_staticText32.Wrap( -1 )
+		gbSizer9.Add( self.m_staticText32, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALIGN_CENTER|wx.ALL, 5 )
+		
+		m_product_name_listChoices = []
+		self.m_product_name_list = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 200,-1 ), m_product_name_listChoices, 0 )
+		self.m_product_name_list.SetSelection( 0 )
+		gbSizer9.Add( self.m_product_name_list, wx.GBPosition( 0, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		
+		self.m_delete_product = wx.Button( self, wx.ID_ANY, u"Delete", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer9.Add( self.m_delete_product, wx.GBPosition( 0, 2 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 		
 		
-		bSizer1.Add( fgSizer3, 1, wx.EXPAND, 5 )
+		bSizer31.Add( gbSizer9, 1, wx.EXPAND, 5 )
 		
 		
-		self.SetSizer( bSizer1 )
+		bSizer3.Add( bSizer31, 1, wx.EXPAND, 5 )
+		
+		
+		self.SetSizer( bSizer3 )
 		self.Layout()
+		
+		# Connect Events
+		self.m_create_product.Bind( wx.EVT_BUTTON, self.m_createProduct )
+		self.m_delete_product.Bind( wx.EVT_BUTTON, self.m_delProduct )
 	
 	def __del__( self ):
 		pass
 	
+	
+	# Virtual event handlers, overide them in your derived class
+	def m_createProduct( self, event ):
+		error = False
+		res = {}
+		selected = self.m_unit_list.GetString(self.m_unit_list.GetSelection())
+		regex = r'([0-9]+)(.*)'
+		matches = re.match(regex, selected, re.M|re.I)
+		
+		try:
+			var = int(self.m_price.GetValue())
+		except:
+			error = "Price must be integer"
+		
+		error = "Unit is invalid" if not matches else error
+		error = "Product name too short" if len(self.m_name.GetValue()) < 3 else error
 
+		if error:
+			wx.MessageBox(error, "Message" ,wx.OK | wx.ICON_ERROR)
+		else:
+			res["unit_id"] = matches.groups()[0]
+			res["name"] = self.m_name.GetValue()
+			res["price"] = self.m_price.GetValue()
+			ProductInv = ProductInventory()
+			res["id"] = ProductInv.create(data=res)
+
+			maxRow = self.m_product_list.GetNumberRows()
+			self.m_product_list.AppendRows(numRows=1)
+			self.m_product_list.SetCellValue(maxRow, 0, str(res['id']))
+			self.m_product_list.SetCellValue(maxRow, 1, str(res['name']))
+			self.m_product_list.SetCellValue(maxRow, 2, str(res['price']))
+			self.m_product_list.SetCellValue(maxRow, 3, str(matches.groups()[1]).replace(" - ", "", 1))
+			self.m_product_list.AutoSizeRow(maxRow)
+			self.m_product_name_list.Append(str(res['id']) + " " + str(res['name']))
+			
+	def m_delProduct( self, event ):
+		selected = self.m_product_name_list.GetString(self.m_product_name_list.GetSelection())
+		regex = r'([0-9]+)(.*)'
+		matches = re.match(regex, selected, re.M|re.I)
+		if matches:
+			productID = matches.groups()[0]
+			answer = wx.MessageBox("What happens when you delete product? All orders of that product will be deleted. Are you want to delete?", "Message" ,wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
+			if answer == wx.YES:
+				ProductInv = ProductInventory()
+				ProductInv.delete(productID)
+				wx.MessageBox("Delete success!", "Message" ,wx.OK | wx.ICON_INFORMATION)
+		else:
+			wx.MessageBox("Error when removing this value", "Message" ,wx.OK | wx.ICON_ERROR)
