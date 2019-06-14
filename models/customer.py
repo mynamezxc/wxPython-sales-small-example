@@ -1,9 +1,24 @@
-class Customer():
+from models.database import *
 
-    def __init__(self, row):
-        self.id = row[0]
-        self.name = row[1]
-        self.address = row[2]
-        self.phone = row[3]
-        self.email = row[4]
-        self.created_at = row[5]
+class CustomerModel(Database):
+    def DanhSach(self):
+        chuoiSQL="select ID, customer_code,customer_name,address,email,phone_number from customers"
+        cursor = Database.getALL(self,chuoiSQL)
+        if cursor != None:    
+            lstNhom=[]
+            for row in cursor:
+                TT = {'ID':row[0], 'customer_code': row[1], 'customer_name':row[2],'address': row[3],'email': row[4],'phone_number': row[5]}
+                lstNhom.append(TT)
+        return lstNhom
+    def Insert(self, Ma,Ten,address,email, phone_number):
+        chuoiSQL="insert into customers (customer_code,customer_name,address,email,phone_number) values(?,?,?,?,?)"
+        kq = Database.execute(self,chuoiSQL,(Ma,Ten,address,email, phone_number))
+        return kq
+    def Update(self,Id, Ma,Ten,address,email, phone_number):
+        chuoiSQL="update customers set customer_code=?, customer_name=?,address=?,email=?,phone_number=? where ID=?"
+        kq = Database.execute(self,chuoiSQL,(Ma,Ten,address,email, phone_number,Id))
+        return kq
+    def Delete(self,Id):
+        chuoiSQL="delete from customers where ID= ? " 
+        kq = Database.execute(self,chuoiSQL,(Id,))
+        return kq
