@@ -1,4 +1,4 @@
 # Build exe file
 pip install pyinstaller
 pyinstaller <ten file>.py
-sau khi build copy cac thu muc nhu database, models, view, templates,... vao trong /dist/<ten file>/
+Put folders like database, models, view, templates,... into /dist/<file_name>/ after built success
